@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尉迟希兰 | 个人主页</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;900&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{background:linear-gradient(135deg,#eef2ff 0%,#f5f0ff 50%,#fdf2f8 100%);color:#1e293b;font-family:'Noto Sans SC',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh;}
+a{color:inherit;text-decoration:none;}
+::selection{background:rgba(99,102,241,0.2);color:#4338ca;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.3);}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#818cf8,#c084fc);border-radius:3px;}
+
+/* CURSOR */
+.cursor-dot{position:fixed;width:8px;height:8px;background:#7c3aed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:multiply;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(124,58,237,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;}
+.cursor-ring.hover{width:56px;height:56px;border-color:rgba(236,72,153,0.5);}
+
+/* BACKGROUND LAYERS */
+.wallpaper-layer{position:fixed;inset:0;z-index:0;background-image:url('wallpaper.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;transition:opacity .8s ease,filter .8s ease;}
+.wallpaper-blur{position:fixed;inset:0;z-index:1;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none;transition:opacity .8s ease;}
+.wallpaper-overlay{position:fixed;inset:0;z-index:2;background:linear-gradient(180deg,rgba(240,244,255,0.55) 0%,rgba(245,240,255,0.35) 30%,rgba(245,240,255,0.35) 65%,rgba(240,244,255,0.65) 100%);pointer-events:none;transition:opacity .8s ease;}
+.subpage-bg{position:fixed;inset:0;z-index:0;background:linear-gradient(135deg,#eef2ff 0%,#f5f0ff 50%,#fdf2f8 100%);opacity:0;transition:opacity .8s ease;}
+
+/* VIEWS */
+.view{position:fixed;inset:0;z-index:5;overflow-y:auto;overflow-x:hidden;opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease,visibility .6s;pointer-events:none;}
+.view.active{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s ease;}
+nav.scrolled{background:rgba(255,255,255,0.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.1);padding:.8rem 2rem;}
+.nav-logo{font-family:'Cinzel','Noto Serif SC',serif;font-size:1.2rem;font-weight:600;background:linear-gradient(135deg,#4f46e5,#7c3aed);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;cursor:pointer;}
+.nav-links{display:flex;gap:1.8rem;align-items:center;}
+.nav-links a{font-size:.82rem;color:#475569;position:relative;transition:color .3s;letter-spacing:1px;cursor:pointer;padding:.4rem 0;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,#6366f1,#a855f7);transition:width .3s ease;border-radius:1px;}
+.nav-links a:hover{color:#4f46e5;}
+.nav-links a:hover::after{width:100%;}
+.nav-links a.active{color:#4338ca;font-weight:500;}
+.nav-links a.active::after{width:100%;}
+@media(max-width:640px){.nav-links{gap:1rem;}.nav-links a{font-size:.7rem;}.nav-logo{font-size:1rem;letter-spacing:2px;}}
+@media(max-width:380px){.nav-logo{display:none;}}
+
+/* HOME VIEW */
+#home{height:100vh;min-height:640px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 2rem;text-align:center;position:relative;}
+.hero-top{font-family:'Cinzel',serif;font-size:.85rem;color:#6366f1;letter-spacing:8px;text-transform:uppercase;margin-bottom:1.5rem;text-shadow:0 1px 8px rgba(255,255,255,0.6);opacity:0;animation:fadeUp .8s .2s forwards;}
+.hero-avatar{width:120px;height:120px;border-radius:50%;background-image:url('avatar.jpg');background-size:cover;background-position:center;margin:0 auto 1.5rem;border:3px solid rgba(255,255,255,0.7);box-shadow:0 8px 32px rgba(99,102,241,0.25),0 0 0 6px rgba(255,255,255,0.4),0 0 0 8px rgba(99,102,241,0.15);opacity:0;animation:fadeUp .8s .3s forwards;transition:transform .4s ease,box-shadow .4s ease;}
+.hero-avatar:hover{transform:scale(1.05) rotate(-2deg);box-shadow:0 12px 40px rgba(168,85,247,0.35),0 0 0 6px rgba(255,255,255,0.5),0 0 0 10px rgba(168,85,247,0.2);}
+.hero-name{font-family:'Noto Serif SC',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:900;line-height:1.1;letter-spacing:6px;margin-bottom:.6rem;text-shadow:0 2px 20px rgba(255,255,255,0.5);opacity:0;animation:fadeUp .8s .4s forwards;}
+.hero-name span{background:linear-gradient(135deg,#1e293b 0%,#4f46e5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:'Noto Serif SC',serif;font-size:clamp(1.1rem,3vw,1.6rem);color:#334155;font-weight:300;letter-spacing:4px;margin-bottom:.4rem;text-shadow:0 1px 10px rgba(255,255,255,0.6);opacity:0;animation:fadeUp .8s .6s forwards;}
+.hero-sub .en{letter-spacing:2px;}
+.hero-desc{font-family:'Noto Serif SC',serif;font-size:.9rem;color:#475569;letter-spacing:2px;text-shadow:0 1px 8px rgba(255,255,255,0.6);margin-bottom:3rem;opacity:0;animation:fadeUp .8s .8s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+.scroll-hint{position:absolute;bottom:2rem;left:0;right:0;margin:0 auto;width:fit-content;display:flex;flex-direction:column;align-items:center;gap:.6rem;opacity:0;animation:fadeUp .8s 1.1s forwards;}
+.scroll-hint span{font-size:.65rem;color:#000;letter-spacing:3px;text-transform:uppercase;padding-left:3px;font-weight:500;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(180deg,transparent,#818cf8,transparent);animation:scrollLine 2s ease-in-out infinite;}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* SUBPAGE */
+.subpage{min-height:100vh;padding:6rem 2rem 4rem;max-width:1100px;margin:0 auto;}
+.subpage-header{text-align:center;margin-bottom:4rem;padding-top:2rem;}
+.subpage-title{font-family:'Noto Serif SC',serif;font-size:2.4rem;font-weight:600;color:#0f172a;margin-bottom:.5rem;letter-spacing:2px;}
+.subpage-sub{font-size:.85rem;color:#6366f1;letter-spacing:4px;text-transform:uppercase;font-weight:500;}
+.section-title{font-family:'Noto Serif SC',serif;font-size:.78rem;font-weight:400;color:#6366f1;letter-spacing:4px;text-transform:uppercase;margin-bottom:.6rem;}
+.section-heading{font-family:'Noto Serif SC',serif;font-size:2rem;font-weight:600;color:#0f172a;margin-bottom:2.5rem;letter-spacing:1px;}
+@media(max-width:640px){.subpage{padding:5rem 1.2rem 3rem;}.subpage-title{font-size:1.8rem;}.section-heading{font-size:1.5rem;}}
+
+.about-intro{font-size:1.1rem;line-height:2;color:#475569;font-weight:300;margin-bottom:3rem;text-align:center;max-width:720px;margin-left:auto;margin-right:auto;}
+.trait-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:3rem;}
+@media(max-width:768px){.trait-grid{grid-template-columns:1fr;}}
+.trait-card{background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,0.1);border-radius:16px;padding:1.8rem;transition:all .4s cubic-bezier(.23,1,.32,1);transform-style:preserve-3d;will-change:transform;box-shadow:0 2px 12px rgba(99,102,241,0.04);}
+.trait-card:hover{border-color:rgba(99,102,241,0.3);box-shadow:0 8px 40px rgba(99,102,241,0.12);}
+.trait-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(168,85,247,0.12));border:1px solid rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#6366f1;margin-bottom:1rem;}
+.trait-info h4{font-family:'Noto Serif SC',serif;font-size:1.1rem;color:#1e293b;margin-bottom:.4rem;}
+.trait-info p{font-size:.85rem;color:#64748b;line-height:1.6;}
+
+.skills-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;max-width:560px;margin:0 auto;}
+.skill-category h4{font-family:'Noto Serif SC',serif;font-size:1.05rem;color:#7c3aed;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid rgba(99,102,241,0.1);}
+.skill-item{margin-bottom:1rem;}
+.skill-row{display:flex;justify-content:space-between;margin-bottom:.4rem;}
+.skill-name{font-size:.88rem;color:#334155;}
+.skill-desc{font-size:.72rem;color:#94a3b8;font-weight:300;}
+.skill-pct{font-size:.75rem;color:#94a3b8;font-family:monospace;}
+.skill-bar{height:4px;background:rgba(99,102,241,0.08);border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;width:0;border-radius:2px;transition:width 1.2s cubic-bezier(.23,1,.32,1);}
+.skill-placeholder{padding:2rem 1rem;text-align:center;font-size:.85rem;color:#94a3b8;border:1px dashed rgba(99,102,241,0.2);border-radius:12px;background:rgba(255,255,255,0.3);}
+.trait-panel-card{background:rgba(255,255,255,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(99,102,241,0.1);border-radius:14px;padding:1.4rem 1.6rem;margin-bottom:1rem;transition:all .4s cubic-bezier(.23,1,.32,1);}
+.trait-panel-card:hover{border-color:rgba(99,102,241,0.25);box-shadow:0 6px 28px rgba(99,102,241,0.1);}
+.trait-panel-head{margin-bottom:.6rem;}
+.trait-panel-head span{font-family:'Noto Serif SC',serif;font-size:1rem;color:#1e293b;font-weight:600;}
+.trait-panel-desc{font-size:.84rem;color:#475569;line-height:1.8;margin:0;}
+.hobby-tags{display:flex;flex-wrap:wrap;gap:.7rem;}
+.hobby-tag{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;background:rgba(255,255,255,0.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(99,102,241,0.1);border-radius:24px;font-size:.82rem;color:#334155;transition:all .3s ease;}
+.hobby-tag:hover{border-color:rgba(236,72,153,0.3);box-shadow:0 4px 16px rgba(236,72,153,0.1);transform:translateY(-2px);}
+.hobby-tag i{color:#a855f7;}
+
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,rgba(99,102,241,0.4),rgba(168,85,247,0.2),transparent);}
+.exp-item{position:relative;margin-bottom:2rem;}
+.exp-dot{position:absolute;left:-2.4rem;top:.4rem;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid #6366f1;box-shadow:0 0 12px rgba(99,102,241,0.3);}
+.exp-card{background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,0.1);border-radius:16px;padding:1.8rem;transition:all .4s ease;box-shadow:0 2px 12px rgba(99,102,241,0.04);}
+.exp-card:hover{border-color:rgba(168,85,247,0.3);transform:translateX(6px);box-shadow:0 8px 30px rgba(168,85,247,0.1);}
+.exp-header{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem;}
+.exp-role{font-family:'Noto Serif SC',serif;font-size:1.15rem;color:#0f172a;font-weight:600;}
+.exp-meta{font-size:.78rem;color:#6366f1;letter-spacing:1px;}
+.exp-desc{font-size:.9rem;color:#64748b;line-height:1.7;margin-bottom:.8rem;}
+.exp-highlights{list-style:none;}
+.exp-highlights li{font-size:.85rem;color:#475569;padding-left:1.2rem;position:relative;margin-bottom:.4rem;line-height:1.6;}
+.exp-highlights li::before{content:'';position:absolute;left:0;top:.55rem;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);}
+
+/* PORTFOLIO CARDS */
+.portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.8rem;}
+@media(max-width:768px){.portfolio-grid{grid-template-columns:1fr;}}
+.portfolio-card{background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,0.1);border-radius:18px;padding:2rem 1.8rem;transition:all .4s cubic-bezier(.23,1,.32,1);display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(99,102,241,0.04);}
+.portfolio-card:hover{border-color:rgba(168,85,247,0.3);transform:translateY(-6px);box-shadow:0 12px 40px rgba(168,85,247,0.12);}
+.pcard-head{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;}
+.pcard-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(168,85,247,0.12));border:1px solid rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#6366f1;flex-shrink:0;}
+.pcard-titlewrap{flex:1;}
+.pcard-title{font-family:'Noto Serif SC',serif;font-size:1.1rem;color:#1e293b;font-weight:600;line-height:1.4;margin-bottom:.3rem;}
+.pcard-tag{display:inline-block;font-size:.68rem;color:#7c3aed;background:rgba(124,58,237,0.08);padding:.15rem .6rem;border-radius:4px;letter-spacing:1px;}
+.pcard-desc{font-size:.85rem;color:#64748b;line-height:1.7;margin-bottom:1.1rem;}
+.pcard-points{list-style:none;margin-bottom:1.4rem;flex-grow:1;}
+.pcard-points li{font-size:.8rem;color:#475569;padding-left:1rem;position:relative;margin-bottom:.45rem;line-height:1.6;}
+.pcard-points li::before{content:'';position:absolute;left:0;top:.55rem;width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);}
+.pcard-link{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.3rem;background:linear-gradient(135deg,#6366f1,#a855f7);color:#fff;border-radius:10px;font-size:.85rem;font-weight:500;transition:all .3s ease;text-decoration:none;align-self:flex-start;}
+.pcard-link:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(99,102,241,0.3);}
+.pcard-link i{font-size:.9rem;}
+.pcard-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;color:#00b894;background:rgba(0,184,148,0.08);padding:.2rem .55rem;border-radius:4px;border:1px solid rgba(0,184,148,0.2);margin-left:.5rem;letter-spacing:.5px;}
+
+.contact-wrap{text-align:center;}
+.contact-desc{font-size:1rem;color:#64748b;margin-bottom:2.5rem;}
+.contact-grid{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;}
+.contact-card{background:rgba(255,255,255,0.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,0.1);border-radius:16px;padding:1.8rem 2rem;min-width:200px;text-align:center;transition:all .4s ease;transform-style:preserve-3d;will-change:transform;box-shadow:0 2px 12px rgba(99,102,241,0.04);}
+.contact-card:hover{border-color:rgba(99,102,241,0.3);transform:translateY(-6px);box-shadow:0 12px 40px rgba(99,102,241,0.15);}
+.contact-icon{font-size:1.5rem;margin-bottom:.6rem;color:#6366f1;}
+.contact-label{font-size:.72rem;color:#94a3b8;letter-spacing:2px;text-transform:uppercase;margin-bottom:.3rem;}
+.contact-value{font-size:.9rem;color:#334155;font-weight:500;}
+.subpage-footer{text-align:center;padding:2rem;border-top:1px solid rgba(99,102,241,0.08);margin-top:4rem;}
+.subpage-footer p{font-size:.78rem;color:#94a3b8;letter-spacing:1px;}
+
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-stagger > *{opacity:0;transform:translateY(30px);transition:opacity .6s cubic-bezier(.23,1,.32,1),transform .6s cubic-bezier(.23,1,.32,1);}
+.reveal-stagger.visible > *{opacity:1;transform:translateY(0);}
+.reveal-stagger.visible > *:nth-child(1){transition-delay:.1s;}
+.reveal-stagger.visible > *:nth-child(2){transition-delay:.2s;}
+.reveal-stagger.visible > *:nth-child(3){transition-delay:.3s;}
+.reveal-stagger.visible > *:nth-child(4){transition-delay:.4s;}
+
+@media(max-width:768px){body{cursor:auto;}.cursor-dot,.cursor-ring{display:none;}}
+@media(max-width:480px){#home{padding:0 1.5rem;}.hero-desc{letter-spacing:1px;font-size:.8rem;}.hero-name{letter-spacing:4px;}.hero-sub{letter-spacing:2px;}}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND LAYERS -->
+<div class="subpage-bg" id="darkBg"></div>
+<div class="wallpaper-layer" id="wallpaperLayer"></div>
+<div class="wallpaper-blur" id="wallpaperBlur"></div>
+<div class="wallpaper-overlay" id="wallpaperOverlay"></div>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV: 顶部始终显示四个模块入口 -->
+<nav id="nav">
+  <div class="nav-logo" id="navLogo" onclick="navigate('home')">YUCHI · XILAN</div>
+  <div class="nav-links" id="navLinks">
+    <a data-view="home" onclick="navigate('home');return false;">首页</a>
+    <a data-view="works" onclick="navigate('works');return false;">作品集</a>
+    <a data-view="skills" onclick="navigate('skills');return false;">技能点</a>
+    <a data-view="contact" onclick="navigate('contact');return false;">联系我</a>
+  </div>
+</nav>
+
+<!-- HOME VIEW: 自我简介 -->
+<div class="view" id="view-home">
+  <section id="home">
+    <div class="hero-top" id="heroTop"></div>
+    <div class="hero-avatar" id="heroAvatar"></div>
+    <h1 class="hero-name"><span id="heroName"></span></h1>
+    <div class="hero-sub" id="heroSub"></div>
+    <div class="hero-desc" id="heroDesc"></div>
+    <div class="scroll-hint">
+      <span id="scrollHint"></span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+  <!-- 向下滚动：教育背景 + 特质 -->
+  <div class="subpage" style="padding-top:2rem;">
+    <div class="section-title reveal" style="text-align:center;">EDUCATION</div>
+    <h3 class="section-heading reveal" id="homeEduTitle" style="text-align:center;"></h3>
+    <div id="homeEduContent"></div>
+    <div class="section-title reveal" style="text-align:center;margin-top:3.5rem;">HIGHLIGHTS</div>
+    <h3 class="section-heading reveal" id="homeTraitsTitle" style="text-align:center;"></h3>
+    <div class="trait-grid reveal-stagger" id="homeTraitGrid"></div>
+  </div>
+</div>
+
+<!-- WORKS VIEW: 作品集（经历 + 作品） -->
+<div class="view" id="view-works">
+  <div class="subpage">
+    <div class="subpage-header reveal">
+      <div class="subpage-sub" id="worksSub"></div>
+      <h2 class="subpage-title" id="worksTitle"></h2>
+    </div>
+    <div class="section-title reveal">EXPERIENCE</div>
+    <h3 class="section-heading reveal" id="experienceTitle"></h3>
+    <div class="timeline reveal-stagger" id="experienceContent"></div>
+    <div class="section-title reveal" style="margin-top:3rem;">PORTFOLIO</div>
+    <h3 class="section-heading reveal" id="portfolioTitle"></h3>
+    <div class="portfolio-grid reveal-stagger" id="portfolioContent"></div>
+  </div>
+</div>
+
+<!-- SKILLS VIEW -->
+<div class="view" id="view-skills">
+  <div class="subpage">
+    <div class="subpage-header reveal">
+      <div class="subpage-sub" id="skillsSub"></div>
+      <h2 class="subpage-title" id="skillsTitle"></h2>
+    </div>
+    <div class="skills-grid reveal-stagger" id="skillsContent"></div>
+  </div>
+</div>
+
+<!-- CONTACT VIEW -->
+<div class="view" id="view-contact">
+  <div class="subpage">
+    <div class="subpage-header reveal">
+      <div class="subpage-sub" id="contactSub"></div>
+      <h2 class="subpage-title" id="contactTitle"></h2>
+    </div>
+    <div class="contact-wrap">
+      <p class="contact-desc reveal" id="contactDesc"></p>
+      <div class="contact-grid reveal-stagger" id="contactContent"></div>
+    </div>
+    <div class="subpage-footer"><p id="footerText"></p></div>
+  </div>
+</div>
+
+<!-- EMBEDDED CONTENT (no fetch needed) -->
+<script type="application/json" id="siteContent">
+{
+  "hero": {
+    "name": "尉迟希兰",
+    "tagline": "YUCHI · XILAN",
+    "subtitle": "字希文 · Sheeran",
+    "description": "理工为骨，文史为血，创新为魂，AI为翼。",
+    "scrollHint": "向下了解更多"
+  },
+  "education": {
+    "title": "教育背景",
+    "items": [
+      {"school":"太原科技大学","major":"电子信息工程学院 通信工程专业","period":"本科","desc":"系统学习通信原理、信号处理、计算机网络与嵌入式系统等核心课程，注重理论结合实践，具备扎实的理工科思维、工程实践能力与跨领域学习能力。"}
+    ]
+  },
+  "traits": {
+    "title": "个人特质",
+    "items": [
+      {"icon":"fas fa-graduation-cap","title":"理工思维","desc":"扎实的逻辑推演与系统化思考能力"},
+      {"icon":"fas fa-feather","title":"人文素养","desc":"深厚的人文底蕴与批判性思辨能力"},
+      {"icon":"fas fa-brain","title":"AI 探索者","desc":"AI生图 · AI漫剧 · 内容创作新范式"},
+      {"icon":"fas fa-palette","title":"创意创作者","desc":"板绘 · 素描 · 用画笔表达想法"}
+    ]
+  },
+  "works": {
+    "sub": "WORKS",
+    "title": "作品集"
+  },
+  "experience": {
+    "title": "实践经历",
+    "items": [
+      {"role":"校文学社团 · 策划部部长","period":"大学期间","desc":"担任校文学社团策划部部长，主导策划并组织第一届「阅享杯」诗词朗诵大赛，从方案设计到现场统筹全程参与。","highlights":["团队精神强，工作积极认真，有耐心、尽职尽责","具备一定的组织领导与协调落地能力"]}
+    ]
+  },
+  "portfolio": {
+    "title": "作品展示",
+    "items": [
+      {
+        "icon":"fas fa-dragon",
+        "title":"《原神》角色系统拆解案",
+        "tag":"独立完成",
+        "desc":"选取热门游戏《原神》，对其角色系统进行拆解并分析其设计。",
+        "points":[
+          "找出设计目的，发掘设计亮点",
+          "找到玩法流程，分析玩家历程",
+          "分析设计要点与缺点，并提出解决方案",
+          "讲述如何复刻该系统，提出个人见解与设计想法"
+        ],
+        "link":"https://docs.qq.com/pdf/DWmNReXZ2Z3Zza09M",
+        "linkType":"腾讯文档"
+      },
+      {
+        "icon":"fas fa-crosshairs",
+        "title":"《无畏契约》社交系统设计案",
+        "tag":"独立完成",
+        "desc":"为加强《无畏契约》的社交性和玩家互动性而设计的社交系统。",
+        "points":[
+          "社交系统名为「基地」，玩家可进入与其他玩家互动游玩",
+          "拥有靶场区和收藏区，各自拥有专属功能供玩家使用",
+          "可参观游戏背景中特工的房间，用于完善游戏世界观"
+        ],
+        "link":"https://docs.qq.com/pdf/DWmN1TGVuanhLY1hZ",
+        "linkType":"腾讯文档"
+      }
+    ]
+  },
+  "skills": {
+    "sub": "SKILLS",
+    "title": "技能矩阵",
+    "categories": [
+      {"name":"专业知识（自评）","type":"score","items":[
+        {"name":"通信工程","level":8},
+        {"name":"AI应用与办公","level":7},
+        {"name":"创意设计","level":8.5},
+        {"name":"数字内容创作","level":7},
+        {"name":"游戏策划","level":6}
+      ]},
+      {"name":"软件技能（熟练度）","type":"pct","items":[
+        {"name":"AutoCAD","desc":"计算机辅助设计软件","level":60},
+        {"name":"MATLAB","desc":"数值计算与科学编程软件","level":70},
+        {"name":"Multisim","desc":"电子电路仿真与设计软件","level":60},
+        {"name":"Xmind","desc":"思维导图软件","level":80},
+        {"name":"AxureRP9","desc":"交互原型设计软件","level":60},
+        {"name":"SAI2","desc":"专业板绘软件","level":65},
+        {"name":"Unity","desc":"实时3D互动内容创作引擎","level":65}
+      ]},
+      {"name":"性格特点","type":"trait","items":[
+        {"title":"MBTI：INFJ/INTJ","desc":"F与T之间游移，日常偏INFJ的共情与洞察，理性决策时偏INTJ的冷静与逻辑。安静而深刻，善于洞察人心，追求意义与和谐。天生的倾听者，在独处中汲取能量，在创作中表达自我。内向是底色，必要时也能切换至外向。"},
+        {"title":"自知之明","desc":"清楚自己的长处与短板，力所能及的事果断去做，做不到的尽力尝试但坦诚说明情况，不逞强也不虚饰。"},
+        {"title":"善良共情","desc":"心软、共情力强，能站在他人角度感受情绪，对人对事皆有同理心。"},
+        {"title":"正义","desc":"骨子里自带正气。所幸启蒙时遇良师、受善教，一路走来不曾走偏，也没被这世界带坏。"},
+        {"title":"诚实","desc":"撒谎会脸红，一眼就能被人看穿。从来不是那块「会骗人」的料。"},
+        {"title":"宽容释怀","desc":"待人宽容，偶尔健忘；也会主动选择遗忘不快，以此成全内心的平和。"},
+        {"title":"创造力与进取心","desc":"不拘泥于单一领域，跨界尝试 AI 生图、AI 漫剧、游戏策划与板绘创作；遇到新事物愿意主动探索，把灵感转化为可落地的作品。"},
+        {"title":"文化底蕴","desc":"系统学习行测知识，通识扎实，不易犯低级错误；对历史地理、中西方神话、武侠修仙、二次元文化均有涉猎，能较好应对工作中的多元文化需求。"},
+        {"title":"清醒的乐观","desc":"关注国际局势、科技与宇宙，对人类未来保持审慎悲观；但对自己的人生始终乐观向前，不被宏大叙事压垮日常。"},
+        {"title":"宅而不懦","desc":"会做饭、能自立，性格偏宅、不喜独自外出闯荡，但该担当时仍会鼓起勇气迎难而上。"},
+        {"title":"整洁自律","desc":"爱干净、讲卫生，习惯洗手、打扫、收拾，生活空间始终保持整洁有序。"},
+        {"title":"夜猫子","desc":"夜深人静时才思奔涌，想象力提升，偶尔会兴奋，熬夜但不通宵。"},
+        {"title":"怠惰","desc":"面对不感兴趣的事务时缺乏内驱力，偶尔会提不起劲；但一旦找到意义感与目标，便会全力以赴。"},
+        {"title":"玄学雅趣","desc":"通晓易经、算命、手相，偶尔帮朋友看姻缘，被夸「准」也从不主动索酬，纯属兴趣使然。"}
+      ]},
+      {"name":"特长爱好（熟练度，满分代表普通人极限）","type":"score","items":[
+        {"name":"口琴","level":2},
+        {"name":"钢琴 / 电子琴","level":2},
+        {"name":"围棋","level":2},
+        {"name":"写作","level":8},
+        {"name":"板绘","level":6},
+        {"name":"羽毛球","level":8},
+        {"name":"篮球","level":4},
+        {"name":"足球","level":3},
+        {"name":"乒乓球","level":4},
+        {"name":"素描","level":5},
+        {"name":"游戏","level":9},
+        {"name":"音乐美术鉴赏","level":8},
+        {"name":"台球","level":5},
+        {"name":"游泳","level":2},
+        {"name":"厨艺","level":8}
+      ]}
+    ]
+  },
+  "contact": {
+    "sub": "CONTACT",
+    "title": "联系我",
+    "desc": "如果您觉得我适合您的团队，欢迎联系",
+    "items": [
+      {"icon":"fas fa-envelope","label":"邮箱","value":"18434636187@163.com"},
+      {"icon":"fab fa-weixin","label":"微信","value":"Vendyee"},
+      {"icon":"fas fa-phone","label":"电话","value":"18434636187"}
+    ]
+  },
+  "footer": {"text":"© 2026 尉迟希兰 · 用热情与技术，创造不被定义的未来"}
+}
+</script>
+
+<script>
+// ============================== STATE ==============================
+var siteContent = null;
+var currentView = null;
+var skillObserver = null;
+var revealObserver = null;
+
+// ============================== DATA LOADING (embedded, no fetch) ==============================
+function loadContent() {
+  var el = document.getElementById('siteContent');
+  siteContent = JSON.parse(el.textContent);
+  renderContent();
+}
+
+// ============================== ROUTING ==============================
+function navigate(view, pushState) {
+  if (view === currentView) return;
+  if (pushState === undefined) pushState = true;
+  currentView = view;
+
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.getElementById('view-' + view).classList.add('active');
+
+  updateBackground(view);
+  updateNav(view);
+
+  if (pushState) {
+    history.pushState({view: view}, '', '#' + view);
+  }
+
+  document.getElementById('view-' + view).scrollTop = 0;
+
+  setTimeout(function() {
+    initRevealObserver();
+    if (view === 'skills') initSkillBars();
+  }, 100);
+}
+
+function updateBackground(view) {
+  var wp = document.getElementById('wallpaperLayer');
+  var blur = document.getElementById('wallpaperBlur');
+  var ov = document.getElementById('wallpaperOverlay');
+  var dk = document.getElementById('darkBg');
+
+  if (view === 'home') {
+    wp.style.opacity = '1';
+    wp.style.filter = 'none';
+    blur.style.opacity = '1';
+    ov.style.opacity = '1';
+    dk.style.opacity = '0';
+  } else {
+    wp.style.opacity = '0.1';
+    wp.style.filter = 'blur(8px)';
+    blur.style.opacity = '0';
+    ov.style.opacity = '0';
+    dk.style.opacity = '1';
+  }
+}
+
+function updateNav(view) {
+  var nav = document.getElementById('nav');
+  var logo = document.getElementById('navLogo');
+
+  if (view === 'home') {
+    logo.classList.remove('on-dark');
+  } else {
+    logo.classList.add('on-dark');
+  }
+
+  // 始终显示毛玻璃背景（导航栏固定可见）
+  nav.classList.add('scrolled');
+
+  // 高亮当前页
+  document.querySelectorAll('#navLinks a').forEach(function(a) {
+    a.classList.remove('active');
+  });
+  var activeLink = document.querySelector('#navLinks a[data-view="' + view + '"]');
+  if (activeLink) activeLink.classList.add('active');
+}
+
+window.addEventListener('popstate', function(e) {
+  var view = (e.state && e.state.view) || 'home';
+  navigate(view, false);
+});
+
+// ============================== RENDER ==============================
+function renderContent() {
+  var c = siteContent;
+
+  // HOME — 自我简介
+  document.getElementById('heroTop').textContent = c.hero.tagline;
+  document.getElementById('heroName').textContent = c.hero.name;
+  document.getElementById('heroSub').innerHTML = c.hero.subtitle.replace(/([A-Za-z]+)/g, '<span class="en">$1</span>');
+  document.getElementById('heroDesc').textContent = c.hero.description;
+  document.getElementById('scrollHint').textContent = c.hero.scrollHint;
+
+  // 首页教育背景
+  document.getElementById('homeEduTitle').textContent = c.education.title;
+  document.getElementById('homeEduContent').innerHTML = c.education.items.map(function(e) {
+    return '<div class="exp-card reveal" style="margin-bottom:1.5rem;">' +
+      '<div class="exp-header"><span class="exp-role">' + e.school + '</span>' +
+      '<span class="exp-meta">' + e.period + '</span></div>' +
+      '<div class="exp-meta" style="margin-bottom:.6rem;">' + e.major + '</div>' +
+      '<p class="exp-desc">' + e.desc + '</p></div>';
+  }).join('');
+
+  // 首页特质卡
+  document.getElementById('homeTraitsTitle').textContent = c.traits.title;
+  document.getElementById('homeTraitGrid').innerHTML = c.traits.items.map(function(t) {
+    return '<div class="trait-card" data-tilt>' +
+      '<div class="trait-icon"><i class="' + t.icon + '"></i></div>' +
+      '<div class="trait-info"><h4>' + t.title + '</h4><p>' + t.desc + '</p></div></div>';
+  }).join('');
+
+  // WORKS — 作品集
+  document.getElementById('worksSub').textContent = c.works.sub;
+  document.getElementById('worksTitle').textContent = c.works.title;
+
+  // 经历
+  document.getElementById('experienceTitle').textContent = c.experience.title;
+  document.getElementById('experienceContent').innerHTML = c.experience.items.map(function(e) {
+    var hl = e.highlights ? '<ul class="exp-highlights">' + e.highlights.map(function(h) {
+      return '<li>' + h + '</li>';
+    }).join('') + '</ul>' : '';
+    return '<div class="exp-item"><div class="exp-dot"></div>' +
+      '<div class="exp-card">' +
+      '<div class="exp-header"><span class="exp-role">' + e.role + '</span>' +
+      '<span class="exp-meta">' + e.period + '</span></div>' +
+      '<p class="exp-desc">' + e.desc + '</p>' + hl + '</div></div>';
+  }).join('');
+
+  document.getElementById('portfolioTitle').textContent = c.portfolio.title;
+  document.getElementById('portfolioContent').innerHTML = c.portfolio.items.map(function(p) {
+    var pts = p.points ? '<ul class="pcard-points">' + p.points.map(function(pt) {
+      return '<li>' + pt + '</li>';
+    }).join('') + '</ul>' : '';
+    return '<div class="portfolio-card">' +
+      '<div class="pcard-head">' +
+      '<div class="pcard-icon"><i class="' + p.icon + '"></i></div>' +
+      '<div class="pcard-titlewrap">' +
+      '<div class="pcard-title">' + p.title + '</div>' +
+      '<span class="pcard-tag">' + p.tag + '</span>' +
+      '</div></div>' +
+      '<p class="pcard-desc">' + p.desc + '</p>' + pts +
+      '<a class="pcard-link" href="' + p.link + '" target="_blank" rel="noopener noreferrer">' +
+      '<i class="fas fa-external-link-alt"></i> 查看文档' +
+      '<span class="pcard-badge"><i class="fas fa-shield-alt"></i> ' + p.linkType + '</span></a>' +
+      '</div>';
+  }).join('');
+
+  // SKILLS
+  document.getElementById('skillsSub').textContent = c.skills.sub;
+  document.getElementById('skillsTitle').textContent = c.skills.title;
+  var palettes = [
+    'linear-gradient(90deg,#6366f1,#818cf8)',
+    'linear-gradient(90deg,#a855f7,#c084fc)',
+    'linear-gradient(90deg,#ec4899,#f472b6)',
+    'linear-gradient(90deg,#3b82f6,#60a5fa)'
+  ];
+  document.getElementById('skillsContent').innerHTML = c.skills.categories.map(function(cat, i) {
+    if (cat.type === 'trait') {
+      if (!cat.items.length) return '<div class="skill-category"><h4>' + cat.name + '</h4><div class="skill-placeholder">内容待补充</div></div>';
+      return '<div class="skill-category"><h4>' + cat.name + '</h4>' +
+        cat.items.map(function(t) {
+          return '<div class="trait-panel-card"><div class="trait-panel-head"><span>' + t.title + '</span></div><p class="trait-panel-desc">' + t.desc + '</p></div>';
+        }).join('') + '</div>';
+    }
+    if (cat.type === 'hobby') {
+      if (!cat.items.length) return '<div class="skill-category"><h4>' + cat.name + '</h4><div class="skill-placeholder">内容待补充</div></div>';
+      return '<div class="skill-category"><h4>' + cat.name + '</h4><div class="hobby-tags">' +
+        cat.items.map(function(h) {
+          return '<div class="hobby-tag"><i class="' + h.icon + '"></i><span>' + h.name + '</span></div>';
+        }).join('') + '</div></div>';
+    }
+    var isScore = cat.type === 'score';
+    return '<div class="skill-category"><h4>' + cat.name + '</h4>' +
+      cat.items.map(function(s) {
+        var pct = isScore ? (s.level * 10) : s.level;
+        var lbl = isScore ? (s.level + ' / 10') : (s.level + '%');
+        var nameHtml = s.desc ? s.name + ' <span class="skill-desc">（' + s.desc + '）</span>' : s.name;
+        return '<div class="skill-item"><div class="skill-row">' +
+          '<span class="skill-name">' + nameHtml + '</span>' +
+          '<span class="skill-pct">' + lbl + '</span></div>' +
+          '<div class="skill-bar"><div class="skill-fill" data-width="' + pct + '%" style="background:' + palettes[i % palettes.length] + '"></div></div></div>';
+      }).join('') + '</div>';
+  }).join('');
+
+  // CONTACT
+  document.getElementById('contactSub').textContent = c.contact.sub;
+  document.getElementById('contactTitle').textContent = c.contact.title;
+  document.getElementById('contactDesc').textContent = c.contact.desc;
+  document.getElementById('contactContent').innerHTML = c.contact.items.map(function(i) {
+    return '<div class="contact-card" data-tilt>' +
+      '<div class="contact-icon"><i class="' + i.icon + '"></i></div>' +
+      '<div class="contact-label">' + i.label + '</div>' +
+      '<div class="contact-value">' + i.value + '</div></div>';
+  }).join('');
+
+  document.getElementById('footerText').textContent = c.footer.text;
+
+  initTilt();
+  initHoverCursor();
+  initRevealObserver();
+  initSkillBars();
+
+  navigate(getInitialView(), false);
+}
+
+function getInitialView() {
+  var hash = window.location.hash.replace('#', '');
+  var valid = ['home','works','skills','contact'];
+  return valid.indexOf(hash) >= 0 ? hash : 'home';
+}
+
+// ============================== 3D TILT ==============================
+function initTilt() {
+  document.querySelectorAll('[data-tilt]').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var rotX = ((y - cy) / cy) * -6;
+      var rotY = ((x - cx) / cx) * 6;
+      card.style.transform = 'perspective(800px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+}
+
+// ============================== SCROLL REVEAL ==============================
+function initRevealObserver() {
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.view').forEach(function(view) {
+    if (view.classList.contains('active')) {
+      view.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el) {
+        revealObserver.observe(el);
+      });
+    }
+  });
+}
+
+// ============================== SKILL BARS ==============================
+function initSkillBars() {
+  if (skillObserver) skillObserver.disconnect();
+  skillObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.width = entry.target.dataset.width;
+        skillObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.skill-fill').forEach(function(bar) {
+    bar.style.width = '0';
+    skillObserver.observe(bar);
+  });
+}
+
+// ============================== CURSOR ==============================
+function initHoverCursor() {
+  document.querySelectorAll('a, [data-tilt], .nav-logo').forEach(function(el) {
+    el.addEventListener('mouseenter', function() {
+      document.getElementById('cursorRing').classList.add('hover');
+    });
+    el.addEventListener('mouseleave', function() {
+      document.getElementById('cursorRing').classList.remove('hover');
+    });
+  });
+}
+
+var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+document.addEventListener('mousemove', function(e) {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  document.getElementById('cursorDot').style.left = mouseX + 'px';
+  document.getElementById('cursorDot').style.top = mouseY + 'px';
+  document.getElementById('cursorRing').style.left = mouseX + 'px';
+  document.getElementById('cursorRing').style.top = mouseY + 'px';
+});
+
+// ============================== INIT ==============================
+loadContent();
+</script>
+</body>
+</html>
