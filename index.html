@@ -348,7 +348,7 @@ nav.scrolled{background:rgba(255,255,255,0.65);backdrop-filter:blur(20px);-webki
         {"title":"宅而不懦","desc":"会做饭、能自立，性格偏宅、不喜独自外出闯荡，但该担当时仍会鼓起勇气迎难而上。"},
         {"title":"整洁自律","desc":"爱干净、讲卫生，习惯洗手、打扫、收拾，生活空间始终保持整洁有序。"},
         {"title":"夜猫子","desc":"夜深人静时才思奔涌，想象力提升，偶尔会兴奋，熬夜但不通宵。"},
-        {"title":"怠惰","desc":"面对不感兴趣的事务时缺乏内驱力，偶尔会提不起劲；但一旦找到意义感与目标，便会全力以赴。"},
+        {"title":"选择性投入","desc":"面对不感兴趣的事务时缺乏内驱力，偶尔会提不起劲；但一旦找到意义感与目标，便会全力以赴。"},
         {"title":"玄学雅趣","desc":"通晓易经、算命、手相，偶尔帮朋友看姻缘，被夸「准」也从不主动索酬，纯属兴趣使然。"}
       ]},
       {"name":"特长爱好（熟练度，满分代表普通人极限）","type":"score","items":[
@@ -590,12 +590,15 @@ function renderContent() {
   initSkillBars();
 
   navigate(getInitialView(), false);
+  // 初次加载时清掉 URL 中的锚点，让地址栏显示干净的首页地址
+  if (window.location.hash) {
+    history.replaceState({view: 'home'}, '', window.location.pathname + window.location.search);
+  }
 }
 
 function getInitialView() {
-  var hash = window.location.hash.replace('#', '');
-  var valid = ['home','works','skills','contact'];
-  return valid.indexOf(hash) >= 0 ? hash : 'home';
+  // 永远从首页开始，忽略 URL 中的锚点（如 #works）
+  return 'home';
 }
 
 // ============================== 3D TILT ==============================
